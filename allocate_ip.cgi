@@ -1,4 +1,4 @@
-#!/nslcm/system/bin/perl
+#!/usr/bin/perl
 #######################################################################
 #
 # Purpose:  To automate allocation of ipaddress to an ip in infoblox
