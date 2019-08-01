@@ -23,6 +23,7 @@ use warnings;
 use Date::Manip;
 use XML::Simple;
 use MongoDB;
+use JSON qw(to_json decode_json encode_json);
 use POSIX qw(strftime);
 
 #Global Variables
