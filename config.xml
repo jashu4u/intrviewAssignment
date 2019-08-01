@@ -1,0 +1,6 @@
+<appConfig>
+<logCollection>logCollector</logCollection>
+<logDbName>dataBaseName</logDbName>
+<dataBaseHost>localhost</dataBaseHost>
+<dbPort>22017</dbPort>
+</appConfig>
