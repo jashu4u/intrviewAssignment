@@ -1,4 +1,4 @@
-#!/nslcm/system/bin/perl
+#!/use/bin/perl
 #######################################################################
 #
 # Purpose:  Common Module for logger and to get properties from xml
@@ -102,3 +102,5 @@ sub returnOutput {
 	print to_json({'returnCode' => $status, 'message' => "$message"});
 	exit;
 }
+
+1;
