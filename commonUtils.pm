@@ -29,7 +29,7 @@ use POSIX qw(strftime);
 #Global Variables
 our $configProperties;
 
-our @EXPORT_OK = qw($configProperties readXmlConfig mongoDbConn disconnMongoDb logToMongo returnOutput getTimeStamp);
+our @EXPORT_OK = qw($configProperties readXmlConfig mongoDbConn disconnMongoDb logToMongo returnOutput getTimeStamp logEvent);
 
 
 # Reading config xml file
@@ -94,13 +94,27 @@ sub getTimeStamp {
 # A function to return json output for endpoints
 ###################################################
 sub returnOutput {
-	my ($dbConn, $collectionName, $query, $message, $status) = @_;
-	logToMongo($dbConn, $collectionName, {$0 => { '_dateTime' => getTimeStamp(), 'log' => "$message" });
-	logToMongo($dbConn, $collectionName, {$0 => { '_dateTime' => getTimeStamp(), 'log' => "Api execution ends." });
-	disconnMongoDb($dbConn);
+	my ($fh, $scriptName, $message, $status) = @_;
+	logToMongo($fh, $scriptName, "$message");
+	logToMongo($fh, $scriptName, "Api execution ends.");
+	close($fh);
 	print $query->header( -type => 'application/json', -Pragma => 'no-cache' );
 	print to_json({'returnCode' => $status, 'message' => "$message"});
 	exit;
+}
+
+
+# A Function to log the events in the error log or the
+# standard log file sent as an Open file handle to the
+# function
+#########################################################
+sub logEvent {
+    my ($Fh, $scriptName, $Data) = @_;
+
+        $scriptName = basename($scriptName);
+    print $Fh getTimeStamp("%m/%d/%Y %H:%M:%S")." $scriptName $Data\n";
+
+    return 1;
 }
 
 1;
