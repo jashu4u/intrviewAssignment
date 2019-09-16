@@ -130,7 +130,7 @@ sub ibxRequest {
     $_body       = ($_body ? to_json($_body) : '{}');
 
     our $ibx_user = $configProperties->{ibxUser};
-    our $ibx_passwd = $configProperties->{ibxUser};
+    our $ibx_passwd = $configProperties->{ibxPwd};
     our $ibx_url = $configProperties->{ibxUrl};
 
     my $results;
