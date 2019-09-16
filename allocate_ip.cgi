@@ -6,7 +6,7 @@
 # Modification History:
 #
 # Date         Programmer      Version
-# 07/22/2019   Jaswanth Koya   1.0
+# 09/12/2019   Jaswanth Koya   1.0
 #
 #######################################################################
 
@@ -22,12 +22,11 @@ use JSON qw(to_json decode_json encode_json);
 my $query = CGI->new();
 my $inputParams = {};
 
-my $collectionName = "$configProperties->{logCollection}";
 #
-# Get Db Connection
+# Logfile trigger
 #
-our $dbConn = mongoDbConn("$configProperties->{logDbName}");
-logToMongo($dbConn, $collectionName, {$0 => { '_dateTime' => getTimeStamp(), 'log' => 'Api execution started' });
+my $logFile = 'logs/ipAllocation.log';
+open(my $fh, ">>$logFile") || die "unable to open the $logFile log file in $0:$!";
 #
 # Read parameters
 #
@@ -36,10 +35,10 @@ logToMongo($dbConn, $collectionName, {$0 => { '_dateTime' => getTimeStamp(), 'lo
 # Process parameters
 #
 my @status = processParameters(%parameters);
-returnOutput($dbConn, $collectionName, $query, $status[1], $status[0]) if( $status[0] != 200 );
+returnOutput($fh, $0, $status[1], $status[0]) if( $status[0] != 200 );
 
 @status = processHostName($hostName, $ip);
-returnOutput($dbConn, $collectionName, $query, $status[1], $status[0]);
+returnOutput($fh, $0, $status[1], $status[0]);
 
 
 sub processParameters {
@@ -66,7 +65,7 @@ sub processParameters {
 
     $inputParams->{ipv4Obj}    = $ipv4Object;
 	
-	logToMongo($dbConn, $collectionName, {$0 => { '_dateTime' => getTimeStamp(), 'log' => '[Info]: Parameters successfully processed' });
+	logEvent($fh, $0, '[Info]: Parameters successfully processed');
     return(200, "Parameters successfully processed");
 
 }
@@ -196,6 +195,5 @@ sub getParams {
 				}
 			} ('fqdn','ipaddress','view');
 	}
-	logToMongo($dbConn, $collectionName, {$0 => { '_dateTime' => getTimeStamp(), 'log' => '[Info]: Input Params ' . Dumper($inputParams) });
+	logEvent($fh, $0, '[Info]: Input Params ' . Dumper($inputParams));
 }
-
