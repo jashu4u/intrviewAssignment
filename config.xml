@@ -1,6 +1,9 @@
 <appConfig>
-<logCollection>logCollector</logCollection>
-<logDbName>dataBaseName</logDbName>
-<dataBaseHost>localhost</dataBaseHost>
-<dbPort>22017</dbPort>
+  <logCollection>logCollector</logCollection>
+  <logDbName>dataBaseName</logDbName>
+  <dataBaseHost>localhost</dataBaseHost>
+  <ibxUser>infoblox login user</ibxUser>
+  <ibxPwd>infoblox login passwrod</ibxPwd>
+  <ibxUrl>https://<INFOBLOXHOSTNAME>/wapi/2.7</ibxUrl>
+  <dbPort>22017</dbPort>
 </appConfig>
