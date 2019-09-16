@@ -95,8 +95,8 @@ sub getTimeStamp {
 ###################################################
 sub returnOutput {
 	my ($fh, $scriptName, $message, $status) = @_;
-	logToMongo($fh, $scriptName, "$message");
-	logToMongo($fh, $scriptName, "Api execution ends.");
+	logEvent($fh, $scriptName, "$message");
+	logEvent($fh, $scriptName, "Api execution ends.");
 	close($fh);
 	print $query->header( -type => 'application/json', -Pragma => 'no-cache' );
 	print to_json({'returnCode' => $status, 'message' => "$message"});
